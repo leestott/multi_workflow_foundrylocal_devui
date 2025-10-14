@@ -1,14 +1,15 @@
 # Multi-Agent Workflow with Foundry Local
 
-A multi-agent workflow application that demonstrates how to build AI-powered planning and research agents using Azure AI Foundry Local and the Agent Framework.
+A multi-agent workflow application that demonstrates how to build AI-powered planning, research, and advisor agents using Azure AI Foundry Local and the Agent Framework.
 
 ## Overview
 
-This solution implements a collaborative workflow between two specialized AI agents:
+This solution implements a collaborative workflow between three specialized AI agents:
 - **Planning Agent**: Generates structured plans based on user requirements
 - **Research Agent**: Expands and analyzes topics based on the planner's output
+- **Advisor Agent**: Synthesizes the plan and research into a final, well-structured recommendation for the user
 
-The agents work together through a concurrent workflow pattern, enabling sophisticated AI-powered task automation.
+The agents work together through a sequential workflow pattern (Plan → Research → Advisor), enabling sophisticated AI-powered task automation and comprehensive recommendations.
 
 ## What is Foundry Local?
 
@@ -64,9 +65,9 @@ The **Agent Framework DevUI** is an interactive web interface that provides a de
 
 ### How It Works in This Solution
 When you run `python main.py`, the DevUI:
-1. **Initializes** both planning and research agents
-2. **Creates** a concurrent workflow builder
-3. **Starts** a web server on `http://localhost:8091`
+1. **Initializes** the planning, research, and advisor agents
+2. **Creates** a sequential workflow (Plan → Research → Advisor)
+3. **Starts** a web server on `http://localhost:8093`
 4. **Opens** the interface automatically in your browser
 5. **Enables** you to interact with the multi-agent workflow through a chat interface
 
@@ -74,6 +75,7 @@ The DevUI makes it easy to:
 - Send messages to trigger the planning workflow
 - Watch as the planning agent creates structured plans
 - See how the research agent expands on those plans
+- Receive a final, well-structured recommendation from the advisor agent
 - Debug any issues with agent communication or model responses
 - Test different scenarios and use cases interactively
 
@@ -171,23 +173,39 @@ The application will:
 1. Load environment variables from `.env`
 2. Initialize the planning and research agents
 3. Start the DevUI web interface
-4. Open automatically in your browser at `http://localhost:8091`
+4. Open automatically in your browser at `http://localhost:8093`
+
+## Advisor Agent Output Structure
+
+The Advisor agent always provides a complete, well-structured final recommendation with the following sections:
+
+1. **🎯 Executive Summary**: Concise overview and primary recommendation
+2. **📊 Key Findings & Analysis**: Insights, patterns, and supporting evidence
+3. **🔥 Priority Recommendations**: Immediate, short-term, and long-term actions
+4. **⚠️ Risk Assessment & Mitigation**: Potential obstacles and contingency plans
+5. **📈 Success Metrics & Monitoring**: KPIs, review checkpoints, and tracking methods
+6. **💡 Additional Considerations**: Limitations, further research, and alternatives
+
+This ensures users always receive a solid, actionable, and complete answer.
 
 ## Project Structure
 
 ```
 ├── main.py                 # Application entry point
-├── .env                   # Environment configuration
-├── plan_agent/           # Planning agent implementation
+├── .env                    # Environment configuration
+├── plan_agent/             # Planning agent implementation
 │   ├── __init__.py
 │   └── agent.py
-├── researcher_agent/     # Research agent implementation
+├── researcher_agent/       # Research agent implementation
 │   ├── __init__.py
 │   └── agent.py
-├── workflow/            # Workflow orchestration
+├── advisor_agent/          # Advisor agent implementation (final recommendations)
+│   ├── __init__.py
+│   └── agent.py
+├── workflow/               # Workflow orchestration
 │   ├── __init__.py
 │   └── workflow.py
-└── README.md           # This file
+└── README.md               # This file
 ```
 
 ## Troubleshooting
@@ -198,6 +216,8 @@ The application will:
 2. **Connection Errors**: Verify that Foundry Local is running and accessible at the configured endpoint
 3. **Model Not Found (400 Error)**: Check that the model name in your `.env` file matches an available model in your Foundry Local instance
 4. **Environment Variable Issues**: Ensure the `.env` file is properly formatted with no missing quotes
+5. **Output Truncation or Looping**: The advisor agent is designed to always provide a complete, well-structured response. If output appears cut off, refresh the browser or check the `.env` and agent instructions for completeness.
+6. **DevUI Scroll/Visibility**: If you can't see the full output, try scrolling with your mouse wheel, arrow keys, or adjust browser zoom. The DevUI is optimized for large, structured responses.
 
 ### Checking Foundry Local Status
 
@@ -211,7 +231,8 @@ This should return a list of available models.
 
 ## Features
 
-- **Multi-Agent Collaboration**: Coordinated workflow between specialized agents
+- **Multi-Agent Collaboration**: Coordinated workflow between specialized agents (Plan, Research, Advisor)
+- **Advisor Agent**: Provides a comprehensive, well-structured final recommendation synthesizing all prior outputs
 - **Local AI Processing**: All AI operations run locally through Foundry Local
 - **Web Interface**: Interactive DevUI for testing and monitoring workflows
 - **Extensible Architecture**: Easy to add new agents or modify existing workflows
@@ -221,7 +242,7 @@ This should return a list of available models.
 
 ### Using the DevUI
 1. **Start the application**: `python main.py`
-2. **Open the web interface**: Navigate to `http://localhost:8091` (opens automatically)
+2. **Open the web interface**: Navigate to `http://localhost:8093` (opens automatically)
 3. **Interact with agents**: Send messages through the chat interface
 4. **Monitor execution**: Watch the workflow execute in real-time
 5. **Debug issues**: Use the built-in tracing and error reporting
@@ -230,7 +251,8 @@ This should return a list of available models.
 1. **User Input**: "Create a plan for building a web application"
 2. **Planning Agent**: Generates a structured development plan
 3. **Research Agent**: Expands on the plan with detailed implementation guidance
-4. **User Feedback**: Review results and iterate on the plan
+4. **Advisor Agent**: Synthesizes the plan and research into a final, actionable recommendation (with executive summary, key findings, prioritized actions, risk assessment, and success metrics)
+5. **User Feedback**: Review results and iterate on the plan
 
 ## Learn More
 
