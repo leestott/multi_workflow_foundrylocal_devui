@@ -21,11 +21,11 @@ def main() -> None:
 	logging.basicConfig(level=logging.WARNING, format="%(message)s")  # Reduced logging
 	logger = logging.getLogger(__name__)
 	logger.warning("Starting FoundryLocal Planning Workflow")
-	logger.warning("Available at: http://localhost:8091")
+	logger.warning("Available at: http://localhost:8092")
 	logger.warning("Entity ID: workflow_foundrylocal_plan_research")
 
 	# Serve the composed workflow with tracing disabled to reduce noise
-	serve(entities=[workflow], port=8091, auto_open=True, tracing_enabled=False)
+	serve(entities=[workflow], port=8092, auto_open=True, tracing_enabled=False)
 
 
 if __name__ == "__main__":  # pragma: no cover
