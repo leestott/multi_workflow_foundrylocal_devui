@@ -87,6 +87,19 @@ The DevUI makes it easy to:
 
 ## Setup Instructions
 
+### Quick Setup (Recommended)
+
+**Windows PowerShell (One Command Setup):**
+```powershell
+# Install everything including Chainlit
+powershell -ExecutionPolicy Bypass -File setup.ps1
+
+# Or install without Chainlit
+powershell -ExecutionPolicy Bypass -File setup.ps1 -SkipChainlit
+```
+
+### Manual Setup
+
 ### 1. Clone the Repository
 
 ```bash
@@ -100,24 +113,24 @@ Create a virtual environment (recommended):
 
 ```bash
 # Create virtual environment
-python -m venv venv
+python -m venv foundrylocal
 
 # Activate virtual environment
 # Windows:
-venv\Scripts\activate
+foundrylocal\Scripts\activate
 # macOS/Linux:
-source venv/bin/activate
+source foundrylocal/bin/activate
 ```
 
 Install required packages:
 
 ```bash
-pip install agent-framework
-pip install python-dotenv
-pip install openai
-```
+# For Chainlit frontend (recommended)
+pip install -r requirements-chainlit.txt
 
-**Note**: The exact package names may vary. If you encounter import errors, you may need to install additional packages or use different package names based on your specific agent framework distribution.
+# Or for core functionality only
+pip install -r requirements.txt
+```
 
 ### 3. Set up Azure AI Foundry Local
 
@@ -163,17 +176,172 @@ Common available models include:
 
 ## Running the Application
 
-Once everything is configured, start the application:
+This project provides **two frontend options** for interacting with the multi-agent workflow:
+
+### Option 1: DevUI (Agent Framework Default)
+
+The **Agent Framework DevUI** provides a comprehensive development and testing environment:
 
 ```bash
+# Start the DevUI
 python main.py
 ```
 
-The application will:
-1. Load environment variables from `.env`
-2. Initialize the planning and research agents
-3. Start the DevUI web interface
-4. Open automatically in your browser at `http://localhost:8093`
+**Features:**
+- **Development-focused interface** with detailed workflow visualization
+- **Real-time tracing** and debugging capabilities
+- **Agent monitoring** and performance metrics
+- **Automatic browser opening** at `http://localhost:8093`
+- **Full workflow observability** for troubleshooting
+
+**Best for:** Development, debugging, and detailed workflow analysis
+
+### Option 2: Chainlit (Recommended for Users)
+
+The **Chainlit frontend** provides a clean, modern chat interface:
+
+#### Quick Start Commands
+
+**Windows PowerShell (Recommended):**
+```powershell
+./run_chainlit.ps1
+```
+
+**Windows Command Prompt:**
+```cmd
+run_chainlit.bat
+```
+
+**Linux/macOS:**
+```bash
+./run_chainlit.sh
+```
+
+#### Manual Start
+```bash
+# With virtual environment activated
+python -m chainlit run chainlit_app_simple.py --port 8001
+
+# Or with full path (Windows)
+foundrylocal\Scripts\python.exe -m chainlit run chainlit_app_simple.py --port 8001
+```
+
+**Features:**
+- **Clean chat interface** optimized for conversations
+- **Real-time agent progress** indicators
+- **Mobile-responsive design** works on all devices
+- **User-friendly error handling** with troubleshooting tips
+- **Accessible at** `http://localhost:8001`
+
+**Best for:** End users, interactive conversations, and production use
+
+### Prerequisites for Both Options
+
+Before running either frontend:
+
+1. **Ensure FoundryLocal is running** at your configured endpoint
+2. **Verify your `.env` file** is properly configured
+3. **Check that all dependencies** are installed
+4. **Confirm the virtual environment** is set up correctly
+
+### Application Startup Process
+
+Both applications will:
+1. **Load environment variables** from `.env`
+2. **Initialize the three agents** (Plan → Research → Advisor)
+3. **Start the web interface** on their respective ports
+4. **Display startup messages** with access URLs and troubleshooting tips
+
+## Chainlit Frontend Details
+
+### Launch Scripts Features
+
+The provided launch scripts (`run_chainlit.ps1`, `run_chainlit.bat`, `run_chainlit.sh`) automatically:
+- **Check prerequisites** and prompt for FoundryLocal status
+- **Activate the virtual environment** (`foundrylocal/`)
+- **Start the Chainlit server** on port 8001
+- **Provide helpful status messages** and error handling
+- **Wait for user confirmation** before starting
+
+### Chainlit Interface Features
+
+- **Clean Chat Interface**: Modern, user-friendly chat experience
+- **Real-time Progress**: See each agent working on your request
+- **Agent-Specific Responses**: Separate outputs from Plan, Research, and Advisor agents
+- **Error Handling**: Clear error messages and troubleshooting guidance
+- **Mobile Responsive**: Works on desktop and mobile devices
+- **Workflow Execution**: Uses `await workflow.run(user_input)` for proper agent orchestration
+- **Chainlit API Compliance**: Correctly handles message updates using `msg.content = new_content` followed by `await msg.update()`
+
+### Example Usage Flow
+
+1. **Start the app** using one of the launch scripts
+2. **Open** `http://localhost:8001` in your browser
+3. **Send a message** like "Create a plan for building a web application"
+4. **Watch the progress** as each agent processes your request:
+   - 📋 **Planning Agent** creates a structured plan
+   - 🔍 **Research Agent** expands with detailed research
+   - 💡 **Advisor Agent** provides final recommendations
+5. **Receive a comprehensive response** with all three agent outputs
+
+### Troubleshooting Chainlit
+
+If you encounter issues:
+- **Check FoundryLocal** is running at the configured endpoint
+- **Verify your `.env` file** has correct settings
+- **Ensure dependencies** are installed in the virtual environment
+- **Check port availability** (8001 for Chainlit, 8093 for DevUI)
+- **Review terminal output** for specific error messages
+
+The Chainlit frontend provides the same three-agent workflow (Plan → Research → Advisor) but with a more focused chat experience ideal for interactive conversations.
+
+## Quick Start Guide
+
+### 1. Choose Your Frontend
+
+**For Development & Debugging:**
+```bash
+python main.py
+# Opens DevUI at http://localhost:8093
+```
+
+**For User Interactions:**
+```bash
+./run_chainlit.ps1    # Windows PowerShell
+run_chainlit.bat      # Windows Command Prompt  
+./run_chainlit.sh     # Linux/macOS
+# Opens Chainlit at http://localhost:8001
+```
+
+### 2. Example Workflow
+
+Try these sample requests to test the multi-agent workflow:
+
+**Business Planning:**
+> "Create a plan for launching a new SaaS product in the healthcare market"
+
+**Technical Projects:**
+> "Plan the development of a real-time chat application with user authentication"
+
+**Marketing Strategy:**
+> "Develop a digital marketing strategy for a small e-commerce business"
+
+**Research Projects:**
+> "Design a machine learning project for customer behavior analysis"
+
+### 3. Understanding the Agent Flow
+
+Each request goes through three specialized agents:
+
+1. **📋 Planning Agent**: Analyzes your request and creates a structured, actionable plan
+2. **🔍 Research Agent**: Conducts thorough research to expand and validate the plan
+3. **💡 Advisor Agent**: Synthesizes findings into final recommendations with:
+   - 🎯 Executive Summary
+   - 📊 Key Findings & Analysis  
+   - 🔥 Priority Recommendations
+   - ⚠️ Risk Assessment & Mitigation
+   - 📈 Success Metrics & Monitoring
+   - 💡 Additional Considerations
 
 ## Advisor Agent Output Structure
 

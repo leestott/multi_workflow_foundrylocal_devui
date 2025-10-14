@@ -1,0 +1,53 @@
+# Requirements for Multi-Agent Workflow with Chainlit Frontend
+# This file includes all dependencies needed for both the core workflow and Chainlit UI
+
+# Core AI Framework Dependencies
+agent-framework>=0.1.0
+openai>=1.0.0,<3.0.0
+
+# Chainlit Frontend Dependencies
+chainlit>=2.8.0
+fastapi>=0.116.0,<0.117.0
+uvicorn>=0.35.0
+starlette>=0.47.2
+python-socketio>=5.11.0,<6.0.0
+python-engineio>=4.11.0
+aiofiles>=24.1.0,<25.0.0
+nest-asyncio>=1.6.0
+
+# Environment and Configuration
+python-dotenv>=1.0.0
+
+# Data Validation and Processing
+pydantic>=2.7.2,<3.0.0
+pydantic-settings>=2.10.1
+
+# HTTP Client Dependencies
+httpx>=0.23.0
+httpcore>=1.0.0
+anyio>=4.0.0
+h11>=0.14.0
+
+# Core Python Utilities
+typing_extensions>=4.8.0
+tqdm>=4.60.0
+certifi>=2023.7.22
+idna>=3.4
+sniffio>=1.3.0
+distro>=1.8.0
+colorama>=0.4.6
+click>=8.1.3
+
+# JSON Processing
+jiter>=0.1.0
+
+# Additional Chainlit Dependencies
+python-multipart>=0.0.18,<1.0.0
+watchfiles>=0.20.0,<1.0.0
+tomli>=2.0.1,<3.0.0
+
+# Installation Instructions:
+# 1. Create virtual environment: python -m venv foundrylocal
+# 2. Activate: foundrylocal\Scripts\activate (Windows) or source foundrylocal/bin/activate (Linux/Mac)
+# 3. Install: pip install -r requirements-chainlit.txt
+# 4. Run: python -m chainlit run chainlit_app_simple.py --port 8000

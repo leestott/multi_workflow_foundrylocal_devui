@@ -5,6 +5,9 @@
 agent-framework>=0.1.0
 openai>=1.0.0,<3.0.0
 
+# Chainlit Frontend (Optional - for alternative UI)
+chainlit>=2.8.0
+
 # Environment and Configuration
 python-dotenv>=1.0.0
 
