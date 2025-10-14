@@ -17,15 +17,22 @@ load_dotenv()
 def main() -> None:
 	"""Launch the planning/research workflow in the DevUI."""
 	
-
-	logging.basicConfig(level=logging.WARNING, format="%(message)s")  # Reduced logging
+	# Set logging to INFO to see more details about workflow execution
+	logging.basicConfig(level=logging.INFO, format="%(message)s")
 	logger = logging.getLogger(__name__)
 	logger.warning("Starting FoundryLocal Planning Workflow")
-	logger.warning("Available at: http://localhost:8092")
+	logger.warning("Available at: http://localhost:8093")
 	logger.warning("Entity ID: workflow_foundrylocal_plan_research")
+	logger.info("")
+	logger.info("🔧 DevUI Troubleshooting Tips:")
+	logger.info("• If output appears truncated, try refreshing the browser page")
+	logger.info("• Use browser zoom (Ctrl+- or Ctrl++) to adjust text size")
+	logger.info("• Check that the workflow completes all 3 agents: Plan → Research → Advisor")
+	logger.info("• Try scrolling with mouse wheel or arrow keys in the response area")
+	logger.info("")
 
-	# Serve the composed workflow with tracing disabled to reduce noise
-	serve(entities=[workflow], port=8092, auto_open=True, tracing_enabled=False)
+	# Serve the composed workflow with tracing enabled for full output visibility
+	serve(entities=[workflow], port=8093, auto_open=True, tracing_enabled=True)
 
 
 if __name__ == "__main__":  # pragma: no cover
