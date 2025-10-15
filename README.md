@@ -134,9 +134,35 @@ pip install -r requirements.txt
 
 ### 3. Set up Azure AI Foundry Local
 
-Ensure Azure AI Foundry Local is running on your machine. 
-The default configuration expects it to be available at `http://127.0.0.1:58123`. 
-You can run foundry service status to confirm the port and update the .env file with the correct port ID.
+**Important**: Configure FoundryLocal to use a fixed port to avoid connection issues.
+
+#### Quick Setup (Recommended)
+```powershell
+# Run the automated setup script
+./setup_foundrylocal.ps1
+```
+
+#### Manual Setup
+Ensure Azure AI Foundry Local is running with a fixed port:
+
+```bash
+# Set FoundryLocal to use port 58123 (default)
+foundry service set --port 58123 --show
+
+# Or use a different port
+foundry service set --port 58000 --show
+```
+
+**Verify it's working:**
+```bash
+# Check service status
+foundry service status
+
+# Test the endpoint
+curl http://127.0.0.1:58123/v1/models
+```
+
+The default configuration expects it to be available at `http://127.0.0.1:58123/v1/`.
 
 ### 4. Configure Environment Variables
 
@@ -345,16 +371,29 @@ Each request goes through three specialized agents:
 
 ## Advisor Agent Output Structure
 
-The Advisor agent always provides a complete, well-structured final recommendation with the following sections:
+The Advisor agent provides **actionable, step-by-step instructions** that users can follow as a complete implementation guide. Each recommendation includes:
 
-1. **🎯 Executive Summary**: Concise overview and primary recommendation
-2. **📊 Key Findings & Analysis**: Insights, patterns, and supporting evidence
-3. **🔥 Priority Recommendations**: Immediate, short-term, and long-term actions
-4. **⚠️ Risk Assessment & Mitigation**: Potential obstacles and contingency plans
-5. **📈 Success Metrics & Monitoring**: KPIs, review checkpoints, and tracking methods
-6. **💡 Additional Considerations**: Limitations, further research, and alternatives
+### 📋 Structured Format
+1. **🎯 Executive Summary**: Clear overview and expected outcomes
+2. **📊 Key Findings & Analysis**: Evidence-based insights with bullet points
+3. **🔥 Priority Recommendations**: 
+   - **⚡ Immediate Actions**: Checkboxes with specific deadlines and owners
+   - **📅 Short-term Strategy**: Week-by-week implementation roadmap
+   - **🎯 Long-term Considerations**: Strategic planning with milestones
+4. **⚠️ Risk Assessment**: Risk matrix with impact, likelihood, and mitigation strategies
+5. **📈 Success Metrics**: Daily, weekly, and monthly KPIs with review schedules
+6. **💡 Next Steps Checklist**: Copy-paste action items for immediate use
+7. **� Additional Considerations**: Limitations, alternatives, and expert consultation needs
 
-This ensures users always receive a solid, actionable, and complete answer.
+### ✅ User-Friendly Features
+- **Checkbox format** `[ ]` for actionable items
+- **Clear ownership** (Who does what)
+- **Specific deadlines** (When to complete)
+- **Measurable outcomes** (How to track success)
+- **Copy-paste ready** format for project management tools
+- **Risk mitigation** strategies with contingency plans
+
+This ensures users receive a **complete implementation guide** rather than just high-level advice.
 
 ## Project Structure
 
